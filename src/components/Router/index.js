@@ -1,13 +1,24 @@
 import React from "react";
-import { BrowserRouter, Switch, Route, Link } from "react-router-dom"
+import { BrowserRouter, Switch, Route } from "react-router-dom"
 
-export default Router = () => {
+import Header from '../Header'
+import PokemonList from '../PokemonList'
+
+const Router = () => {
     return (
         <BrowserRouter>
+            <Route path='/'>
+                <Header />
+            </Route>
             <Switch>
-                <Route path="/pokemon" />
-                <Route path="/berries" />
+                <Route exact path="/">
+                    <PokemonList />
+                </Route>
+                <Route path="/berries">
+                </Route>
             </Switch>
         </BrowserRouter>
     )
 }
+
+export default Router
