@@ -32,8 +32,8 @@ export default function SimpleTabs() {
     <div className={classes.root}>
       <AppBar position="static">
         <Tabs className={classes.tabs} value={value} onChange={handleChange} centered>
-          <Tab label="Item One" {...a11yProps(0)} component={Link} to={'/'}/>
-          <Tab label="Item Two" {...a11yProps(1)} component={Link} to={'/berries'}/>
+          <Tab label="Pokemon" {...a11yProps(0)} component={Link} to={'/'}/>
+          <Tab label="Berry" {...a11yProps(1)} component={Link} to={'/berries'}/>
         </Tabs>
       </AppBar>
     </div>

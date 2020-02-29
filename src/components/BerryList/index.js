@@ -1,12 +1,12 @@
 import React from 'react'
 
 import GenericList from '../GenericList'
-import { read } from '../../services/pokemon'
+import { read } from '../../services/berry'
 
-const PokemonList = () => {
+const BerrieList = () => {
     return (
         <GenericList  fill={read} />
     )
 }
 
-export default PokemonList
+export default BerrieList

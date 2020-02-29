@@ -3,6 +3,7 @@ import { BrowserRouter, Switch, Route } from "react-router-dom"
 
 import Header from '../Header'
 import PokemonList from '../PokemonList'
+import BerryList from '../BerryList'
 
 const Router = () => {
     return (
@@ -15,6 +16,7 @@ const Router = () => {
                     <PokemonList />
                 </Route>
                 <Route path="/berries">
+                    <BerryList />
                 </Route>
             </Switch>
         </BrowserRouter>
