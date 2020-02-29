@@ -5,7 +5,7 @@ import { read } from '../../services/berry'
 
 const BerrieList = () => {
     return (
-        <GenericList  fill={read} />
+        <GenericList  fill={read} colsNumber={10} cellHeight={120} />
     )
 }
 

@@ -5,7 +5,7 @@ import { read } from '../../services/pokemon'
 
 const PokemonList = () => {
     return (
-        <GenericList  fill={read} />
+        <GenericList  fill={read} colsNumber={9} cellHeight={130} />
     )
 }
 

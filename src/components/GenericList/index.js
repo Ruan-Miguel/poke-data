@@ -19,6 +19,16 @@ const useStyles = makeStyles(theme => ({
     icon: {
         color: 'rgba(255, 255, 255, 0.54)',
     },
+    image: {
+        height: 'fit-content',
+        width: 'fit-content',
+    },
+    imgWrapping: {
+        height: '-webkit-fill-available',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+    }
 }))
 
 const GenericList = (props) => {
@@ -34,10 +44,12 @@ const GenericList = (props) => {
 
     return (
         <div className={classes.root}>
-            <GridList className={classes.gridList} spacing={10} cols={7}>
+            <GridList className={classes.gridList} cellHeight={props.cellHeight} spacing={10} cols={props.colsNumber}>
                 {content.map(item => (
                     <GridListTile key={item.name}>
-                        <img alt={item.name} src={item.image} />
+                        <div className={classes.imgWrapping}>
+                        <img className={classes.image} alt={item.name} src={item.image} />
+                        </div>
                         <GridListTileBar
                             title={item.name}
                         />
