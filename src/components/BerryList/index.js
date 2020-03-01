@@ -1,11 +1,38 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
-import GenericList from '../GenericList'
+import GenericPage from "../GenericPage";
 import { read } from '../../services/berry'
 
 const BerrieList = () => {
+    const [berries, setBerries] = useState([])
+    const [pageNumber, setPageNumber] = useState(1)
+
+    const colsNumber = 10
+    const rowsNumber = 3
+
+    useEffect(() => {
+        read((pageNumber - 1) * colsNumber * rowsNumber, colsNumber * rowsNumber).then(res => {
+            setBerries(res)
+        })
+    }, [pageNumber])
+
+    const nextPage = () => {
+        setPageNumber(pageNumber + 1)
+    }
+
+    const prevPage = () => {
+        setPageNumber(pageNumber - 1)
+    }
+
     return (
-        <GenericList  fill={read} colsNumber={10} cellHeight={120} />
+        <GenericPage content={berries}
+            colsNumber={colsNumber}
+            cellHeight={130}
+            prevPage={prevPage}
+            currentPage={pageNumber}
+            nextPage={nextPage}
+            maxPage={3}
+            />
     )
 }
 
