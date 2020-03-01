@@ -34,10 +34,10 @@ const GenericList = (props) => {
 
     return (
         <div className={classes.root}>
-            <GridList className={classes.gridList} cellHeight={props.cellHeight} spacing={10} cols={props.colsNumber}>
+            <GridList className={classes.gridList} cellHeight={props.cellHeight} spacing={2} cols={props.colsNumber}>
                 {props.content.map(item => (
                     <GridListTile key={item.name}>
-                        <div className={classes.imgWrapping}>
+                        <div style={{backgroundColor: item.color}} className={classes.imgWrapping}>
                         <img className={classes.image} alt={item.name} src={item.image} />
                         </div>
                         <GridListTileBar
