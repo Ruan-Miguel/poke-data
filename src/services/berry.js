@@ -9,6 +9,7 @@ const searchInfo = async (BerrieUrl) => {
     res = await axios.get(itemUrl)
     const { data: itemData } = res
     const info = {
+        id: itemData.id,
         name: itemData.name,
         image: itemData.sprites.default
     }

@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
   tabs: {
     backgroundColor: '#1976d2'
   }
-}));
+}))
 
 export default function SimpleTabs() {
   const classes = useStyles()

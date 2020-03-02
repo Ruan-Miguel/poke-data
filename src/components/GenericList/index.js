@@ -26,7 +26,11 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center'
-    }
+    },
+    name: {
+        textTransform: 'capitalize',
+        textAlign: 'center',
+    },
 }))
 
 const GenericList = (props) => {
@@ -36,11 +40,12 @@ const GenericList = (props) => {
         <div className={classes.root}>
             <GridList className={classes.gridList} cellHeight={props.cellHeight} spacing={2} cols={props.colsNumber}>
                 {props.content.map(item => (
-                    <GridListTile key={item.name}>
+                    <GridListTile key={item.id}>
                         <div style={{backgroundColor: item.color}} className={classes.imgWrapping}>
                         <img className={classes.image} alt={item.name} src={item.image} />
                         </div>
                         <GridListTileBar
+                            className={classes.name}
                             title={item.name}
                         />
                     </GridListTile>

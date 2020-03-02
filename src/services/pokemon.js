@@ -84,6 +84,7 @@ const searchInfo = async (url) => {
         return item.name === type
     })
     const info = {
+        id: data.id,
         name: data.name,
         image: data.sprites.front_default,
         color: typeAndColor.color,
@@ -100,6 +101,55 @@ const read = async (offset, limit) => {
     return info
 }
 
+const detailedPokemonSpecieReading = async (id) => {
+    const res = await api.get(`pokemon-species/${id}`)
+    const { data } = res
+    const color = data.color.name
+    const flavorText = data.flavor_text_entries[1].flavor_text
+
+    return {
+        color,
+        flavorText
+    }
+}
+
+const detailedPokemonReading = async (id) => {
+    const res = await api.get(`pokemon/${id}`)
+    const { data } = res
+    const abilities = data.abilities.map(item => item.ability.name)
+    const images = {
+        current: {
+            front: data.sprites.front_default,
+            back: data.sprites.back_default,
+        },
+        shiny: {
+            front: data.sprites.front_shiny,
+            back: data.sprites.back_shiny,
+        },
+    }
+
+    const stats = data.stats.map(item => {
+        return {
+            name: item.stat.name,
+            value: item.base_stat,
+        }
+    })
+    const types = data.types.map(item => item.type.name)
+
+    return {
+        abilities,
+        stats,
+        types,
+        images
+    }
+}
+
+const detailedReading = async (id) => {
+    return Promise.all([detailedPokemonReading(id), detailedPokemonSpecieReading(id)])
+        .then(res => Object.assign(res[0], res[1]))
+}
+
 export {
-    read
+    read,
+    detailedReading
 }
