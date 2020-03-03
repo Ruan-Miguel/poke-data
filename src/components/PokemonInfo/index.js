@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { Paper, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography } from "@material-ui/core";
+import { Paper, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, Divider } from "@material-ui/core";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 
 import SwitchSprite from "../SwitchSprite";
@@ -17,15 +17,20 @@ const useStyles = makeStyles(theme => ({
     },
     paper: {
         /* height: '70%', */
-        width: '50%',
+        width: '25%',
     },
     heading: {
         fontSize: theme.typography.pxToRem(15),
         fontWeight: theme.typography.fontWeightRegular,
     },
+    title: {
+        textAlign: 'center',
+        textTransform: 'capitalize',
+        marginTop: theme.spacing(1),
+    },
     description: {
-        margin: theme.spacing(2)
-    }
+        margin: theme.spacing(2),
+    },
 }))
 
 const PokemonInfo = (props) => {
@@ -38,25 +43,40 @@ const PokemonInfo = (props) => {
     }
 
     const [details, setDetails] = useState({
-        stats: []
+        stats: [],
+        abilities: [],
     })
 
     useEffect(() => {
         detailedReading(props.id).then(res => {
             setDetails(res)
+            console.log(res)
         })
     }, [props.id])
 
     return (
         <div className={classes.root}>
             <Paper className={classes.paper} elevation={3} >
+                <Typography className={classes.title} variant={'h5'} >{details.name}</Typography>
                 <SwitchSprite images={details.images} />
-                <Typography className={classes.description} variant="subtitle1">{details.flavorText}</Typography>
+                <Divider variant="middle" />
                 <ExpansionPanel expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
                     <ExpansionPanelSummary
                         expandIcon={<ExpandMoreIcon />}
                         aria-controls="panel1a-content"
                         id="panel1a-header"
+                    >
+                        <Typography className={classes.heading}>Flavor Text</Typography>
+                    </ExpansionPanelSummary>
+                    <ExpansionPanelDetails>
+                        <Typography className={classes.description} variant="subtitle1">{details.flavorText}</Typography>
+                    </ExpansionPanelDetails>
+                </ExpansionPanel>
+                <ExpansionPanel expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
+                    <ExpansionPanelSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="panel2a-content"
+                        id="panel2a-header"
                     >
                         <Typography className={classes.heading}>Stats</Typography>
                     </ExpansionPanelSummary>
@@ -68,19 +88,20 @@ const PokemonInfo = (props) => {
                         </Typography>
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
-                <ExpansionPanel expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
+                <ExpansionPanel expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
                     <ExpansionPanelSummary
                         expandIcon={<ExpandMoreIcon />}
-                        aria-controls="panel2a-content"
-                        id="panel2a-header"
+                        aria-controls="panel3a-content"
+                        id="panel3a-header"
                     >
                         <Typography className={classes.heading}>Abilities</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
-                        <Typography>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-                            sit amet blandit leo lobortis eget.
-          </Typography>
+                        <Typography component={'div'}>
+                            {details.abilities.map(ability => {
+                                return <Typography key={ability}>{ability}</Typography>
+                            })}
+                        </Typography>
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
             </Paper>

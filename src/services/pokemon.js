@@ -105,7 +105,9 @@ const detailedPokemonSpecieReading = async (id) => {
     const res = await api.get(`pokemon-species/${id}`)
     const { data } = res
     const color = data.color.name
-    const flavorText = data.flavor_text_entries[1].flavor_text
+    const flavorText = data.flavor_text_entries.find(flavor => {
+        return flavor.language.name === 'en'
+    }).flavor_text
 
     return {
         color,
@@ -116,6 +118,7 @@ const detailedPokemonSpecieReading = async (id) => {
 const detailedPokemonReading = async (id) => {
     const res = await api.get(`pokemon/${id}`)
     const { data } = res
+    const name = data.name
     const abilities = data.abilities.map(item => item.ability.name)
     const images = {
         current: {
@@ -137,6 +140,7 @@ const detailedPokemonReading = async (id) => {
     const types = data.types.map(item => item.type.name)
 
     return {
+        name,
         abilities,
         stats,
         types,
