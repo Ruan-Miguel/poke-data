@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 
-import GenericPage from "../GenericPage";
+import GenericPage from "../GenericPage"
+import PokemonInfo from "../PokemonInfo";
+
 import { read } from '../../services/pokemon'
 
 const PokemonList = () => {
@@ -26,7 +28,9 @@ const PokemonList = () => {
     }
 
     return (
-        <GenericPage content={pokemons}
+        <GenericPage
+            content={pokemons}
+            action={PokemonInfo}
             colsNumber={colsNumber}
             cellHeight={130}
             prevPage={prevPage}

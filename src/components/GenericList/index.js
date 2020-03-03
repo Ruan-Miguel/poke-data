@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { GridList, GridListTile, GridListTileBar } from "@material-ui/core";
 
@@ -14,8 +14,8 @@ const useStyles = makeStyles(theme => ({
     gridList: {
         width: '100vw',
     },
-    icon: {
-        color: 'rgba(255, 255, 255, 0.54)',
+    card: {
+        cursor: 'pointer',
     },
     image: {
         height: 'fit-content',
@@ -36,13 +36,26 @@ const useStyles = makeStyles(theme => ({
 const GenericList = (props) => {
     const classes = useStyles()
 
+    const [open, setOpen] = useState(false)
+    const [id, setId] = useState(1)
+
+    const handleClickOpen = id => {
+        console.log(id)
+        setId(id)
+        setOpen(true)
+    };
+
+    const handleClose = () => {
+        setOpen(false)
+    }
+
     return (
         <div className={classes.root}>
             <GridList className={classes.gridList} cellHeight={props.cellHeight} spacing={2} cols={props.colsNumber}>
                 {props.content.map(item => (
-                    <GridListTile key={item.id}>
-                        <div style={{backgroundColor: item.color}} className={classes.imgWrapping}>
-                        <img className={classes.image} alt={item.name} src={item.image} />
+                    <GridListTile className={classes.card} key={item.id} onClick={() => handleClickOpen(item.id)}>
+                        <div style={{ backgroundColor: item.color }} className={classes.imgWrapping}>
+                            <img className={classes.image} alt={item.name} src={item.image} />
                         </div>
                         <GridListTileBar
                             className={classes.name}
@@ -51,6 +64,7 @@ const GenericList = (props) => {
                     </GridListTile>
                 ))}
             </GridList>
+            <props.action id={id} open={open} handleClose={handleClose} />
         </div>
     )
 }
