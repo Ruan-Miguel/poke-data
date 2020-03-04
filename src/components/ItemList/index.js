@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
 
-import GenericPage from "../GenericPage";
-import { read } from '../../services/berry'
+import GenericPage from "../GenericPage"
+import ItemInfo from '../ItemInfo'
+
+import { read } from '../../services/item'
 
 const BerrieList = () => {
     const [berries, setBerries] = useState([])
@@ -25,13 +27,15 @@ const BerrieList = () => {
     }
 
     return (
-        <GenericPage content={berries}
+        <GenericPage
+            content={berries}
+            action={ItemInfo}
             colsNumber={colsNumber}
             cellHeight={130}
             prevPage={prevPage}
             currentPage={pageNumber}
             nextPage={nextPage}
-            maxPage={3}
+            maxPage={32}
             />
     )
 }

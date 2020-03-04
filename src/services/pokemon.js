@@ -76,6 +76,8 @@ const typesAndColors = [
     },
 ]
 
+//Listing
+
 const searchInfo = async (url) => {
     const res = await axios.get(url)
     const { data } = res
@@ -100,6 +102,8 @@ const read = async (offset, limit) => {
 
     return info
 }
+
+//Specification
 
 const detailedPokemonSpecieReading = async (id) => {
     const res = await api.get(`pokemon-species/${id}`)

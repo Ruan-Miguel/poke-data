@@ -33,7 +33,10 @@ const SwitchSprite = (props) => {
     const classes = useStyles()
 
     const [checked, setChecked] = useState(false)
-    const [option, setOption] = useState('')
+    const [option, setOption] = useState({
+        front: '',
+        back: '',
+    })
 
     const handleChange = event => {
         setChecked(event.target.checked)
@@ -42,16 +45,26 @@ const SwitchSprite = (props) => {
     useEffect(() => {
         if (props.images) {
             if (checked) {
-                setOption(props.images.shiny.front)
+                setOption(props.images.shiny)
             } else {
-                setOption(props.images.current.front)
+                setOption(props.images.current)
             }
+        } else {
+            setOption(
+                {
+                    front: '',
+                    back: '',
+                }
+            )
         }
     }, [props.images, checked])
 
     return (
         <div className={classes.root}>
-            <img className={classes.image} alt={'current pokemon'} src={option} />
+            <div>
+                <img className={classes.image} alt={'front of current pokemon'} src={option.front} />
+                <img className={classes.image} alt={'back of current pokemon'} src={option.back} />
+            </div>
             <FormControlLabel
                 control={
                     <BlueSwitch

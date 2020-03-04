@@ -37,16 +37,16 @@ const GenericList = (props) => {
     const classes = useStyles()
 
     const [open, setOpen] = useState(false)
-    const [id, setId] = useState(1)
+    const [id, setId] = useState()
 
     const handleClickOpen = id => {
-        console.log(id)
         setId(id)
         setOpen(true)
     };
 
     const handleClose = () => {
         setOpen(false)
+        setId()
     }
 
     return (
