@@ -52,8 +52,8 @@ const SwitchSprite = (props) => {
         } else {
             setOption(
                 {
-                    front: '',
-                    back: '',
+                    front: null,
+                    back: null,
                 }
             )
         }
@@ -63,7 +63,9 @@ const SwitchSprite = (props) => {
         <div className={classes.root}>
             <div>
                 <img className={classes.image} alt={'front of current pokemon'} src={option.front} />
-                <img className={classes.image} alt={'back of current pokemon'} src={option.back} />
+                {
+                    (option.back) ? <img className={classes.image} alt={'back of current pokemon'} src={option.back} /> : ''
+                }
             </div>
             <FormControlLabel
                 control={

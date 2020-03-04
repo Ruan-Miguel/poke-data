@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { GridList, GridListTile, GridListTileBar } from "@material-ui/core";
+import { GridList, GridListTile, GridListTileBar } from "@material-ui/core"
+
+import Image from 'material-ui-image'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -17,15 +19,8 @@ const useStyles = makeStyles(theme => ({
     card: {
         cursor: 'pointer',
     },
-    image: {
-        height: 'fit-content',
-        width: 'fit-content',
-    },
     imgWrapping: {
-        height: '-webkit-fill-available',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center'
+        height: '100%',
     },
     name: {
         textTransform: 'capitalize',
@@ -54,8 +49,14 @@ const GenericList = (props) => {
             <GridList className={classes.gridList} cellHeight={props.cellHeight} spacing={2} cols={props.colsNumber}>
                 {props.content.map(item => (
                     <GridListTile className={classes.card} key={item.id} onClick={() => handleClickOpen(item.id)}>
-                        <div style={{ backgroundColor: item.color }} className={classes.imgWrapping}>
-                            <img className={classes.image} alt={item.name} src={item.image} />
+                        <div className={classes.imgWrapping}>
+                            <Image
+                                style={{ backgroundColor: item.color, height: '100%', paddingTop: 0, display: 'flex', justifyContent: 'center', alignItems: 'center', }}
+                                imageStyle={{ width: 'fit-content', height: 'fit-content', top: '', left: ',' }}
+                                disableSpinner
+                                alt={item.name}
+                                src={item.image}
+                            />
                         </div>
                         <GridListTileBar
                             className={classes.name}

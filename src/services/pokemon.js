@@ -88,7 +88,7 @@ const searchInfo = async (url) => {
     const info = {
         id: data.id,
         name: data.name,
-        image: data.sprites.front_default,
+        image: (data.sprites.front_default) ? data.sprites.front_default : 'does not exist',
         color: typeAndColor.color,
     }
 
