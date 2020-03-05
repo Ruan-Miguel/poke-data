@@ -85,14 +85,13 @@ const searchInfo = async (url) => {
     const typeAndColor =  typesAndColors.find(item => {
         return item.name === type
     })
-    const info = {
+
+    return {
         id: data.id,
         name: data.name,
         image: (data.sprites.front_default) ? data.sprites.front_default : 'does not exist',
         color: typeAndColor.color,
     }
-
-    return info
 }
 
 const read = async (offset, limit) => {
@@ -157,7 +156,20 @@ const detailedReading = async (id) => {
         .then(res => Object.assign(res[0], res[1]))
 }
 
+//Search
+
+const search = async (name) => {
+    name = name.toLowerCase(name)
+
+    const limit = await api.get('/pokemon').then(res => res.data.count)
+
+    const pokemons = await api.get(`pokemon/?limit=${limit}`).then(res => res.data.results)
+
+    return pokemons.filter(pokemon => pokemon.name.includes(name))
+}
+
 export {
     read,
-    detailedReading
+    detailedReading,
+    search
 }

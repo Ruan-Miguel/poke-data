@@ -1,8 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import Paper from '@material-ui/core/Paper'
-import InputBase from '@material-ui/core/InputBase'
-import IconButton from '@material-ui/core/IconButton'
+import { Paper, InputBase, IconButton } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
 
 const useStyles = makeStyles(theme => ({
@@ -27,12 +25,16 @@ const useStyles = makeStyles(theme => ({
 const InputSearch = () => {
   const classes = useStyles()
 
+  const [inputValue, setInputValue] = useState('')
+
   return (
     <Paper component="form" className={classes.root}>
       <InputBase
         className={classes.input}
-        placeholder="Search Google Maps"
-        inputProps={{ 'aria-label': 'search google maps' }}
+        placeholder="Search"
+        inputProps={{ 'aria-label': 'search' }}
+        value={inputValue}
+        onChange={(event) => setInputValue(event.target.value)}
       />
       <IconButton type="submit" className={classes.iconButton} aria-label="search">
         <SearchIcon />
