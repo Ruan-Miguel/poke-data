@@ -37,7 +37,7 @@ const GenericList = (props) => {
     const handleClickOpen = id => {
         setId(id)
         setOpen(true)
-    };
+    }
 
     const handleClose = () => {
         setOpen(false)
@@ -54,6 +54,7 @@ const GenericList = (props) => {
                                 style={{ backgroundColor: item.color, height: '100%', paddingTop: 0, display: 'flex', justifyContent: 'center', alignItems: 'center', }}
                                 imageStyle={{ width: 'fit-content', height: 'fit-content', top: '', left: ',' }}
                                 disableSpinner
+                                animationDuration={1000}
                                 alt={item.name}
                                 src={item.image}
                             />
