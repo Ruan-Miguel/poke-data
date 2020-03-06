@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, Dialog, DialogContent, DialogTitle, Slide } from "@material-ui/core";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+import Image from 'material-ui-image'
 
 import { detailedReading } from "../../services/item"
 
@@ -46,18 +47,19 @@ const ItemInfo = (props) => {
     }
 
     const [details, setDetails] = useState({
-        attributes: []
+        attributes: [],
+        sprite: '',
     })
 
     useEffect(() => {
         if (props.id) {
             detailedReading(props.id).then(res => {
-                console.log(res)
                 setDetails(res)
             })
         } else {
             setDetails({
-                attributes: []
+                attributes: [],
+                sprite: '',
             })
         }
     }, [props.id])
@@ -73,7 +75,16 @@ const ItemInfo = (props) => {
         >
             <DialogTitle className={classes.title} id="alert-dialog-title"><div>{details.name}</div></DialogTitle>
             <DialogContent id='alert-dialog-description'>
-                <div className={classes.imageWrap}><img alt='Current Item' src={details.sprite}></img></div>
+                <div className={classes.imageWrap}>
+                    <Image
+                    style={{ height: '30px', paddingTop: 0, display: 'flex', justifyContent: 'center', alignItems: 'center', }}
+                    imageStyle={{ width: 'fit-content', height: 'fit-content', position: '', }}
+                    disableSpinner
+                    animationDuration={1000}
+                    alt={'Current Item'}
+                    src={details.sprite}
+                />
+                </div>
                 <ExpansionPanel expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
                     <ExpansionPanelSummary
                         expandIcon={<ExpandMoreIcon />}

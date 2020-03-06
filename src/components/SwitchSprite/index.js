@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"
 import { makeStyles } from '@material-ui/core/styles'
 import { FormControlLabel, Switch } from "@material-ui/core"
 import { withStyles } from '@material-ui/core/styles'
+import Image from 'material-ui-image'
 
 const BlueSwitch = withStyles({
     switchBase: {
@@ -23,11 +24,25 @@ const useStyles = makeStyles(theme => ({
         alignItems: 'center',
         marginBottom: theme.spacing(1)
     },
-    image: {
-        height: 'fit-content',
-        width: 'fit-content',
+    imgWrap: {
+        display: 'flex',
     },
 }))
+
+const imageStyles = {
+    wraper: {
+        height: '96px',
+        paddingTop: 0,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    content: {
+        width: 'fit-content',
+        height: 'fit-content',
+        position: '',
+    },
+}
 
 const SwitchSprite = (props) => {
     const classes = useStyles()
@@ -52,7 +67,7 @@ const SwitchSprite = (props) => {
         } else {
             setOption(
                 {
-                    front: null,
+                    front: '',
                     back: null,
                 }
             )
@@ -61,10 +76,25 @@ const SwitchSprite = (props) => {
 
     return (
         <div className={classes.root}>
-            <div>
-                <img className={classes.image} alt={'front of current pokemon'} src={option.front} />
+            <div className={classes.imgWrap}>
+                <Image
+                    style={imageStyles.wraper}
+                    imageStyle={imageStyles.content}
+                    disableSpinner
+                    animationDuration={1000}
+                    alt={'front of current pokemon'}
+                    src={option.front}
+                />
                 {
-                    (option.back) ? <img className={classes.image} alt={'back of current pokemon'} src={option.back} /> : ''
+                    (option.back) ?
+                        <Image
+                            style={imageStyles.wraper}
+                            imageStyle={imageStyles.content}
+                            disableSpinner
+                            animationDuration={1000}
+                            alt={'back of current pokemon'}
+                            src={option.back}
+                        /> : ''
                 }
             </div>
             <FormControlLabel

@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { GridList, GridListTile, GridListTileBar } from "@material-ui/core"
-
 import Image from 'material-ui-image'
 
 const useStyles = makeStyles(theme => ({
@@ -52,7 +51,7 @@ const GenericList = (props) => {
                         <div className={classes.imgWrapping}>
                             <Image
                                 style={{ backgroundColor: item.color, height: '100%', paddingTop: 0, display: 'flex', justifyContent: 'center', alignItems: 'center', }}
-                                imageStyle={{ width: 'fit-content', height: 'fit-content', top: '', left: ',' }}
+                                imageStyle={{ width: 'fit-content', height: 'fit-content', position: '', }}
                                 disableSpinner
                                 animationDuration={1000}
                                 alt={item.name}
