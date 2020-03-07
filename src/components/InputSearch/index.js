@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, } from 'react'
+import { Redirect, useParams, } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import { Paper, InputBase, IconButton } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
@@ -27,8 +28,15 @@ const InputSearch = () => {
 
   const [inputValue, setInputValue] = useState('')
 
+  const currentRoute = useParams().tab
+
   return (
     <Paper component="form" className={classes.root}>
+      <Redirect to={{
+        pathname: `/${currentRoute}`,
+        search: (inputValue === '') ? null : `?name=${inputValue}`,
+      }}
+      />
       <InputBase
         className={classes.input}
         placeholder="Search"
@@ -36,11 +44,12 @@ const InputSearch = () => {
         value={inputValue}
         onChange={(event) => setInputValue(event.target.value)}
       />
-      <IconButton type="submit" className={classes.iconButton} aria-label="search">
+      <IconButton className={classes.iconButton} aria-label="search">
         <SearchIcon />
       </IconButton>
     </Paper>
   )
+
 }
 
 export default InputSearch
