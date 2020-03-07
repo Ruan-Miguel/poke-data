@@ -45,9 +45,14 @@ const GenericList = (props) => {
 
     return (
         <div className={classes.root}>
-            <GridList className={classes.gridList} cellHeight={props.cellHeight} spacing={2} cols={props.colsNumber}>
+            <GridList className={classes.gridList} cellHeight={props.cellHeight} spacing={props.spacing} cols={props.colsNumber}>
                 {props.content.map(item => (
-                    <GridListTile className={classes.card} key={item.id} onClick={() => handleClickOpen(item.id)}>
+                    <GridListTile
+                    key={item.id}
+                    classes={{
+                        tile: classes.card
+                    }}
+                    >
                         <div className={classes.imgWrapping}>
                             <Image
                                 style={{ backgroundColor: item.color, height: '100%', paddingTop: 0, display: 'flex', justifyContent: 'center', alignItems: 'center', }}
@@ -56,11 +61,13 @@ const GenericList = (props) => {
                                 animationDuration={1000}
                                 alt={item.name}
                                 src={item.image}
+                                onClick={() => handleClickOpen(item.id)}
                             />
                         </div>
                         <GridListTileBar
                             className={classes.name}
                             title={item.name}
+                            onClick={() => handleClickOpen(item.id)}
                         />
                     </GridListTile>
                 ))}

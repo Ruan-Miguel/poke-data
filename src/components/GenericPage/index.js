@@ -33,7 +33,7 @@ const Pag = (props) => {
 
     return (
         <div className={classes.root}>
-            <GenericList action={props.action} content={props.content} colsNumber={props.colsNumber} cellHeight={props.cellHeight} />
+            <GenericList action={props.action} content={props.content} spacing={props.spacing} colsNumber={props.colsNumber} cellHeight={props.cellHeight} />
             <div className={classes.buttonWrapping}>
                 <Button
                     disabled={props.currentPage === 1}

@@ -94,8 +94,8 @@ const searchInfo = async (url) => {
     }
 }
 
-const read = async (offset, limit) => {
-    const res = await api.get(`pokemon/?offset=${offset}&limit=${limit}`)
+const read = async (pageNumber, limit) => {
+    const res = await api.get(`pokemon/?offset=${(pageNumber -1) * limit}&limit=${limit}`)
     const pokemons = res.data.results
     const info = await Promise.all(pokemons.map(pokemon => searchInfo(pokemon.url)))
 
@@ -158,14 +158,40 @@ const detailedReading = async (id) => {
 
 //Search
 
-const search = async (name) => {
+const specialFilter = (page, limit, pokemons, name) => {
+    const offset = limit * (page - 1)
+    const res = []
+    let offsetCont = 0
+
+    for(let pokemon of pokemons) {
+        if (pokemon.name.includes(name)) {
+            if (offsetCont < offset) {
+                offsetCont++
+            } else {
+                if (res.length < limit) {
+                    res.push(pokemon)
+                } else {
+                    break
+                }
+            }
+        }
+    }
+
+    return res
+}
+
+const search = async (pageNumber, limit, name) => {
     name = name.toLowerCase(name)
 
-    const limit = await api.get('/pokemon').then(res => res.data.count)
+    const NumberOfPokemons = await api.get('/pokemon').then(res => res.data.count)
 
-    const pokemons = await api.get(`pokemon/?limit=${limit}`).then(res => res.data.results)
+    const pokemons = await api.get(`pokemon/?limit=${NumberOfPokemons}`).then(res => res.data.results)
 
-    return pokemons.filter(pokemon => pokemon.name.includes(name))
+    const selectedPokemons = specialFilter(pageNumber, limit, pokemons, name)
+
+    const info = await Promise.all(selectedPokemons.map(pokemon => searchInfo(pokemon.url)))
+
+    return info
 }
 
 export {

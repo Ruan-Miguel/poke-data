@@ -13,7 +13,9 @@ const BerrieList = () => {
     const rowsNumber = 3
 
     useEffect(() => {
-        read((pageNumber - 1) * colsNumber * rowsNumber, colsNumber * rowsNumber).then(res => {
+        const elementsNumber = colsNumber * rowsNumber
+        
+        read((pageNumber - 1) * elementsNumber, elementsNumber).then(res => {
             setBerries(res)
         })
     }, [pageNumber])
