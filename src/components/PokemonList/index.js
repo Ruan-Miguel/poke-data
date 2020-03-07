@@ -7,7 +7,7 @@ import PokemonInfo from "../PokemonInfo";
 import { read, search as pokemonSearch } from '../../services/pokemon'
 
 function useQuery() {
-    return new URLSearchParams(useLocation().search);
+    return new URLSearchParams(useLocation().search)
 }
 
 const PokemonList = () => {
@@ -28,6 +28,7 @@ const PokemonList = () => {
             const id = cont.current
 
             const elementsNumber = colsNumber * rowsNumber
+            
             let aux
 
             if (pokemonName) {

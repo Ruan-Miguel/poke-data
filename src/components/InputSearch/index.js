@@ -1,5 +1,5 @@
 import React, { useState, } from 'react'
-import { Redirect, useParams, } from 'react-router-dom'
+import { Redirect, useParams, useLocation } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import { Paper, InputBase, IconButton } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
@@ -23,10 +23,16 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
+function useQuery() {
+  return new URLSearchParams(useLocation().search)
+}
+
 const InputSearch = () => {
   const classes = useStyles()
 
-  const [inputValue, setInputValue] = useState('')
+  const query = useQuery().get('name')
+
+  const [inputValue, setInputValue] = useState((query) ? query : '')
 
   const currentRoute = useParams().tab
 

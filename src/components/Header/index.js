@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function SimpleTabs() {
+const Header = () => {
   const classes = useStyles()
   const [value, setValue] = React.useState((useParams().tab === 'pokemons') ? 0 : 1)
 
@@ -47,3 +47,5 @@ export default function SimpleTabs() {
       </AppBar>
   )
 }
+
+export default Header

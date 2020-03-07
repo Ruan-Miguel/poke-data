@@ -42,7 +42,46 @@ const detailedReading = async (id) => {
     }
 }
 
+//Search
+
+const specialFilter = (page, limit, items, name) => {
+    const offset = limit * (page - 1)
+    const res = []
+    let offsetCont = 0
+
+    for(let item of items) {
+        if (item.name.includes(name)) {
+            if (offsetCont < offset) {
+                offsetCont++
+            } else {
+                if (res.length < limit) {
+                    res.push(item)
+                } else {
+                    break
+                }
+            }
+        }
+    }
+
+    return res
+}
+
+const search = async (pageNumber, limit, name) => {
+    name = name.toLowerCase(name)
+
+    const NumberOfItems = await api.get('/item').then(res => res.data.count)
+
+    const items = await api.get(`item/?limit=${NumberOfItems}`).then(res => res.data.results)
+
+    const selectedItems = specialFilter(pageNumber, limit, items, name)
+
+    const info = await Promise.all(selectedItems.map(item => searchInfo(item.url)))
+
+    return info
+}
+
 export {
     read,
-    detailedReading
+    detailedReading,
+    search
 }

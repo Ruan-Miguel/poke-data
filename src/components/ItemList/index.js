@@ -1,9 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
+import { useLocation } from 'react-router-dom'
 
 import GenericPage from "../GenericPage"
 import ItemInfo from '../ItemInfo'
 
-import { read } from '../../services/item'
+import { read, search as searchItem } from '../../services/item'
+
+function useQuery() {
+    return new URLSearchParams(useLocation().search)
+}
 
 const BerrieList = () => {
     const [berries, setBerries] = useState([])
@@ -12,13 +17,31 @@ const BerrieList = () => {
     const colsNumber = 10
     const rowsNumber = 3
 
+    const itemName = useQuery().get('name')
+
+    const cont = useRef(0)
+
     useEffect(() => {
-        const elementsNumber = colsNumber * rowsNumber
-        
-        read((pageNumber - 1) * elementsNumber, elementsNumber).then(res => {
-            setBerries(res)
-        })
-    }, [pageNumber])
+        const getBerries = async () => {
+            cont.current++
+            const id = cont.current
+
+            const elementsNumber = colsNumber * rowsNumber
+            let aux
+
+            if (itemName) {
+                aux = await searchItem(pageNumber, elementsNumber, itemName)
+            } else {
+                aux = await read((pageNumber - 1) * elementsNumber, elementsNumber)
+            }
+
+            if (id === cont.current) {
+                setBerries(aux)
+            }
+        }
+
+        getBerries()
+    }, [pageNumber, itemName])
 
     const nextPage = () => {
         setPageNumber(pageNumber + 1)
@@ -38,7 +61,7 @@ const BerrieList = () => {
             currentPage={pageNumber}
             nextPage={nextPage}
             maxPage={32}
-            />
+        />
     )
 }
 
