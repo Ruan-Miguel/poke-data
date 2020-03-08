@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom'
 import GenericPage from "../GenericPage"
 import PokemonInfo from "../PokemonInfo";
 
-import { getPokemons } from '../../services/pokemon'
+import { getPokemons, pagesNumber } from '../../services/pokemon'
 
 function useQuery() {
     return new URLSearchParams(useLocation().search)
@@ -21,25 +21,43 @@ const PokemonList = () => {
 
     const pokemonName = useQuery().get('name')
 
-    const cont = useRef(0)
+    const cont1 = useRef(0)
+    const cont2 = useRef(0)
 
     useEffect(() => {
         const fill = async () => {
-            cont.current++
-            const id = cont.current
+            cont1.current++
+            const id = cont1.current
 
             const elementsNumber = colsNumber * rowsNumber
             
-            const aux = await getPokemons(pageNumber, elementsNumber, pokemonName)
+            const pokemons = await getPokemons(pageNumber, elementsNumber, pokemonName)
 
-            if (id === cont.current) {
-                setPokemons(aux.pokemons)
-                setMaxPage(aux.maxPage)
+            if (id === cont1.current) {
+                setPokemons(pokemons)
             }
         }
 
         fill()
     }, [pageNumber, pokemonName])
+
+    useEffect(() => {
+        const fill = async () => {
+            cont2.current++
+            const id = cont2.current
+
+            const elementsNumber = colsNumber * rowsNumber
+
+            const res = await pagesNumber(pokemonName, elementsNumber)
+
+            if (id === cont2.current) {
+                setMaxPage(res)
+                setPageNumber(1)
+            }
+        }
+
+        fill()
+    }, [pokemonName])
 
     const nextPage = () => {
         setPageNumber(pageNumber + 1)

@@ -82,7 +82,7 @@ const searchInfo = async (url) => {
     const res = await axios.get(url)
     const { data } = res
     const type = data.types[0].type.name
-    const typeAndColor =  typesAndColors.find(item => {
+    const typeAndColor = typesAndColors.find(item => {
         return item.name === type
     })
 
@@ -95,17 +95,11 @@ const searchInfo = async (url) => {
 }
 
 const read = async (pageNumber, limit) => {
-    const res = await api.get(`pokemon/?offset=${(pageNumber -1) * limit}&limit=${limit}`)
+    const res = await api.get(`pokemon/?offset=${(pageNumber - 1) * limit}&limit=${limit}`)
     const pokemons = res.data.results
     const detailedPokemons = await Promise.all(pokemons.map(pokemon => searchInfo(pokemon.url)))
-    const info = {
-        maxPage: Math.ceil(res.data.count / limit),
-        pokemons: detailedPokemons
-    }
 
-    console.warn(info)
-
-    return info
+    return detailedPokemons
 }
 
 //Specification
@@ -164,12 +158,19 @@ const detailedReading = async (id) => {
 
 //Search
 
+/**
+ * filtering abstraction for the function "search"
+ * @param {*} page 
+ * @param {*} limit 
+ * @param {*} pokemons 
+ * @param {*} name 
+ */
 const filterByName = (page, limit, pokemons, name) => {
     const offset = limit * (page - 1)
     const res = []
     let offsetCont = 0
 
-    for(let pokemon of pokemons) {
+    for (let pokemon of pokemons) {
         if (pokemon.name.includes(name)) {
             if (offsetCont < offset) {
                 offsetCont++
@@ -197,32 +198,49 @@ const search = async (pageNumber, limit, name) => {
 
     const detailedPokemons = await Promise.all(selectedPokemons.map(pokemon => searchInfo(pokemon.url)))
 
-    const numberOfMatches = pokemons.reduce((cont, pokemon) => {
-        if (pokemon.name.includes(name)) {
-            return cont + 1
-        }
-        return cont
-    }, 0)
-
-    const info = {
-        pokemons: detailedPokemons,
-        maxPage: Math.ceil(numberOfMatches / limit),
-    }
-
-    console.log(info)
-
-    return info
+    return detailedPokemons
 }
 
+/**
+ * Determine a list of pokemon based on a page, a number of pokemon per page and an optional search word
+ * @param {*} pageNumber 
+ * @param {*} limit 
+ * @param {*} name 
+ */
 const getPokemons = (pageNumber, limit, name) => {
     if (name && name !== '') {
         return search(pageNumber, limit, name)
     }
-
     return read(pageNumber, limit)
+}
+
+/**
+ * Determine last page number
+ * @param {*} name 
+ * @param {*} limit 
+ */
+const pagesNumber = async (name, limit) => {
+    const NumberOfPokemons = await api.get('/pokemon').then(res => res.data.count)
+
+    if (name && name !== '') {
+        name = name.toLowerCase(name)
+
+        const pokemons = await api.get(`pokemon/?limit=${NumberOfPokemons}`).then(res => res.data.results)
+
+        const numberOfMatches = pokemons.reduce((cont, pokemon) => {
+            if (pokemon.name.includes(name)) {
+                return cont + 1
+            }
+            return cont
+        }, 0)
+
+        return Math.ceil(numberOfMatches / limit)
+    }
+    return Math.ceil(NumberOfPokemons / limit)
 }
 
 export {
     detailedReading,
-    getPokemons
+    getPokemons,
+    pagesNumber
 }
