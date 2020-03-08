@@ -1,4 +1,4 @@
-import React, { useState, } from 'react'
+import React, { useState } from 'react'
 import { Redirect, useParams, useLocation } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import { Paper, InputBase, IconButton } from '@material-ui/core'
@@ -37,7 +37,7 @@ const InputSearch = () => {
   const currentRoute = useParams().tab
 
   return (
-    <Paper component="form" className={classes.root}>
+    <Paper component="div" className={classes.root}>
       <Redirect to={{
         pathname: `/${currentRoute}`,
         search: (inputValue === '') ? null : `?name=${inputValue}`,

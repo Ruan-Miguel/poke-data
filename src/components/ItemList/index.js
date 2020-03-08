@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom'
 import GenericPage from "../GenericPage"
 import ItemInfo from '../ItemInfo'
 
-import { read, search as searchItem } from '../../services/item'
+import { getBerries } from '../../services/item'
 
 function useQuery() {
     return new URLSearchParams(useLocation().search)
@@ -22,25 +22,20 @@ const BerrieList = () => {
     const cont = useRef(0)
 
     useEffect(() => {
-        const getBerries = async () => {
+        const fill = async () => {
             cont.current++
             const id = cont.current
 
             const elementsNumber = colsNumber * rowsNumber
-            let aux
-
-            if (itemName) {
-                aux = await searchItem(pageNumber, elementsNumber, itemName)
-            } else {
-                aux = await read((pageNumber - 1) * elementsNumber, elementsNumber)
-            }
+            
+            let aux = await getBerries(pageNumber, elementsNumber, itemName)
 
             if (id === cont.current) {
                 setBerries(aux)
             }
         }
 
-        getBerries()
+        fill()
     }, [pageNumber, itemName])
 
     const nextPage = () => {

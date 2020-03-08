@@ -15,8 +15,8 @@ const searchInfo = async (itemUrl) => {
     return info
 }
 
-const read = async (offset, limit) => {
-    const res = await api.get(`item?offset=${offset}&limit=${limit}`)
+const read = async (pageNumber, limit) => {
+    const res = await api.get(`item?offset=${(pageNumber -1) * limit}&limit=${limit}`)
     const { results: items } = res.data
     const info = await Promise.all(items.map(item => searchInfo(item.url)))
 
@@ -80,8 +80,15 @@ const search = async (pageNumber, limit, name) => {
     return info
 }
 
+const getBerries = (pageNumber, limit, name) => {
+    if (name && name !== '') {
+        return search(pageNumber, limit, name)
+    }
+
+    return read(pageNumber, limit)
+}
+
 export {
-    read,
+    getBerries,
     detailedReading,
-    search
 }

@@ -97,7 +97,13 @@ const searchInfo = async (url) => {
 const read = async (pageNumber, limit) => {
     const res = await api.get(`pokemon/?offset=${(pageNumber -1) * limit}&limit=${limit}`)
     const pokemons = res.data.results
-    const info = await Promise.all(pokemons.map(pokemon => searchInfo(pokemon.url)))
+    const detailedPokemons = await Promise.all(pokemons.map(pokemon => searchInfo(pokemon.url)))
+    const info = {
+        maxPage: Math.ceil(res.data.count / limit),
+        pokemons: detailedPokemons
+    }
+
+    console.warn(info)
 
     return info
 }
@@ -158,7 +164,7 @@ const detailedReading = async (id) => {
 
 //Search
 
-const specialFilter = (page, limit, pokemons, name) => {
+const filterByName = (page, limit, pokemons, name) => {
     const offset = limit * (page - 1)
     const res = []
     let offsetCont = 0
@@ -187,15 +193,36 @@ const search = async (pageNumber, limit, name) => {
 
     const pokemons = await api.get(`pokemon/?limit=${NumberOfPokemons}`).then(res => res.data.results)
 
-    const selectedPokemons = specialFilter(pageNumber, limit, pokemons, name)
+    const selectedPokemons = filterByName(pageNumber, limit, pokemons, name)
 
-    const info = await Promise.all(selectedPokemons.map(pokemon => searchInfo(pokemon.url)))
+    const detailedPokemons = await Promise.all(selectedPokemons.map(pokemon => searchInfo(pokemon.url)))
+
+    const numberOfMatches = pokemons.reduce((cont, pokemon) => {
+        if (pokemon.name.includes(name)) {
+            return cont + 1
+        }
+        return cont
+    }, 0)
+
+    const info = {
+        pokemons: detailedPokemons,
+        maxPage: Math.ceil(numberOfMatches / limit),
+    }
+
+    console.log(info)
 
     return info
 }
 
+const getPokemons = (pageNumber, limit, name) => {
+    if (name && name !== '') {
+        return search(pageNumber, limit, name)
+    }
+
+    return read(pageNumber, limit)
+}
+
 export {
-    read,
     detailedReading,
-    search
+    getPokemons
 }
