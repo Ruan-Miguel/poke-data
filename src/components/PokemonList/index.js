@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom'
 import GenericPage from "../GenericPage"
 import PokemonInfo from "../PokemonInfo";
 
-import { getPokemons, pagesNumber } from '../../services/pokemon'
+import { getPokemons, numberOfPages } from '../../services/pokemon'
 
 function useQuery() {
     return new URLSearchParams(useLocation().search)
@@ -48,7 +48,7 @@ const PokemonList = () => {
 
             const elementsNumber = colsNumber * rowsNumber
 
-            const res = await pagesNumber(pokemonName, elementsNumber)
+            const res = await numberOfPages(pokemonName, elementsNumber)
 
             if (id === cont2.current) {
                 setMaxPage(res)

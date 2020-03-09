@@ -187,8 +187,14 @@ const filterByName = (page, limit, pokemons, name) => {
     return res
 }
 
+/**
+ * performs a search for superficial details of items whose name contains the given string on a given page with a given number of elements
+ * @param {*} pageNumber 
+ * @param {*} limit 
+ * @param {*} name 
+ */
 const search = async (pageNumber, limit, name) => {
-    name = name.toLowerCase(name)
+    name = name.toLowerCase()
 
     const NumberOfPokemons = await api.get('/pokemon').then(res => res.data.count)
 
@@ -202,7 +208,7 @@ const search = async (pageNumber, limit, name) => {
 }
 
 /**
- * Determine a list of pokemon based on a page, a number of pokemon per page and an optional search word
+ * Determine a list of pokemon based on a page, a number of pokemons per page and an optional search word
  * @param {*} pageNumber 
  * @param {*} limit 
  * @param {*} name 
@@ -219,11 +225,11 @@ const getPokemons = (pageNumber, limit, name) => {
  * @param {*} name 
  * @param {*} limit 
  */
-const pagesNumber = async (name, limit) => {
+const numberOfPages = async (name, limit) => {
     const NumberOfPokemons = await api.get('/pokemon').then(res => res.data.count)
 
     if (name && name !== '') {
-        name = name.toLowerCase(name)
+        name = name.toLowerCase()
 
         const pokemons = await api.get(`pokemon/?limit=${NumberOfPokemons}`).then(res => res.data.results)
 
@@ -236,11 +242,12 @@ const pagesNumber = async (name, limit) => {
 
         return Math.ceil(numberOfMatches / limit)
     }
+
     return Math.ceil(NumberOfPokemons / limit)
 }
 
 export {
     detailedReading,
     getPokemons,
-    pagesNumber
+    numberOfPages
 }
