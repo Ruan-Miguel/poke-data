@@ -32,7 +32,7 @@ const GenericList = (props) => {
 
     const [open, setOpen] = useState(false)
     const [id, setId] = useState()
-
+    
     const handleClickOpen = id => {
         setId(id)
         setOpen(true)
