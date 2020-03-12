@@ -3,7 +3,7 @@ import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom"
 
 import Header from '../Header'
 import PokemonList from '../PokemonList'
-/* import ItemList from '../ItemList' */
+import ItemList from '../ItemList'
 
 const Router = () => {
     return (
@@ -20,9 +20,9 @@ const Router = () => {
                 <Route exact path="/pokemons">
                     <PokemonList />
                 </Route>
-                {/* <Route exact path="/berries">
+                <Route exact path="/berries">
                     <ItemList />
-                </Route> */}
+                </Route>
                 <Route path='*'>
                     <p>eeeeeerr</p>
                 </Route>
