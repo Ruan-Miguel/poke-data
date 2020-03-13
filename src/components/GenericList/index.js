@@ -13,7 +13,9 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: theme.palette.background.paper,
     },
     gridList: {
-        width: '100vw',
+        width: '98vw',
+        display: 'flex',
+        justifyContent: 'center',
     },
     card: {
         cursor: 'pointer',
@@ -45,13 +47,14 @@ const GenericList = (props) => {
 
     return (
         <div className={classes.root}>
-            <GridList className={classes.gridList} cellHeight={props.cellHeight} spacing={props.spacing} cols={props.colsNumber}>
+            <GridList className={classes.gridList} cellHeight={props.cellHeight} /* spacing={props.spacing} */ >
                 {props.content.map(item => (
                     <GridListTile
                     key={item.id}
                     classes={{
                         tile: classes.card
                     }}
+                    style={{ width: '170px' }}
                     >
                         <div className={classes.imgWrapping}>
                             <Image
@@ -72,7 +75,7 @@ const GenericList = (props) => {
                     </GridListTile>
                 ))}
             </GridList>
-            <props.action id={id} open={open} handleClose={handleClose} />
+            <props.action { ...{ id, open, handleClose } } />
         </div>
     )
 }

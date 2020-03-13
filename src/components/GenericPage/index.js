@@ -79,7 +79,7 @@ const Pag = (props) => {
 
     return (
         <div className={classes.root}>
-            <GenericList action={props.action} content={content} currentPage={page} spacing={props.spacing} colsNumber={props.colsNumber} cellHeight={props.cellHeight} />
+            <GenericList action={props.action} content={content} currentPage={page} spacing={props.spacing} cellHeight={props.cellHeight} />
             <div className={classes.buttonWrapping}>
                 <Button
                     component={Link}
