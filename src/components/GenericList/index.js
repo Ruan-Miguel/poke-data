@@ -7,15 +7,13 @@ const useStyles = makeStyles(theme => ({
     root: {
         height: 'auto',
         display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'space-around',
-        overflow: 'hidden',
-        backgroundColor: theme.palette.background.paper,
+        flexGrow: 1,
     },
     gridList: {
-        width: '98vw',
-        display: 'flex',
+        margin: '1% 64px 1% 64px !important',
         justifyContent: 'center',
+        alignItems: 'center',
+        alignContent: 'space-evenly',
     },
     card: {
         cursor: 'pointer',

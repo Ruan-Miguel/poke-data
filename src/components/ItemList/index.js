@@ -7,7 +7,7 @@ import { getBerries, numberOfPages } from '../../services/item'
 
 const BerrieList = () => {
 
-    const colsNumber = 10
+    const colsNumber = 7
     const rowsNumber = 3
 
     return (

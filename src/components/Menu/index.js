@@ -1,15 +1,24 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
-import { Drawer, Button, List, ListItem } from '@material-ui/core'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import ListItemText from '@material-ui/core/ListItemText'
-import MailIcon from '@material-ui/icons/Mail'
+import { Drawer, Button, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core'
+import LinkIcon from '@material-ui/icons/Link'
 import MenuIcon from '@material-ui/icons/Menu'
+
+import InputSearch from '../InputSearch'
 
 const useStyles = makeStyles({
     list: {
-        width: 250,
+        width: 270,
+    },
+    menu: {
+        width: 'fit-content',
+        position: 'fixed',
+        zIndex: 1,
+    },
+    inputWraper: {
+        display: 'flex',
+        justifyContent: 'center',
     },
 })
 
@@ -20,27 +29,35 @@ const Menu = () => {
     })
 
     const toggleDrawer = (side, open) => event => {
-        if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-            return
+        console.log(event.key)
+        if (event.type === 'keydown') {
+            if (event.key !== 'Enter') {
+                return
+            }
+
+            if (event.key === 'Enter') {
+                event.preventDefault()
+            }
         }
 
-        setState({ ...state, [side]: open });
+        setState({ ...state, [side]: open })
     };
 
     const sideList = side => (
         <div
             className={classes.list}
             role="presentation"
-            onClick={toggleDrawer(side, false)}
-            onKeyDown={toggleDrawer(side, false)}
         >
             <List>
-                <ListItem button component={Link} to={`/pokemons`} key={'pokemon'}>
-                    <ListItemIcon><MailIcon /></ListItemIcon>
+                <ListItem onKeyDown={toggleDrawer(side, false)} className={classes.inputWraper}>
+                    <InputSearch />
+                </ListItem>
+                <ListItem button component={Link} to={`/pokemons`} key={'pokemon'} onClick={toggleDrawer(side, false)}>
+                    <ListItemIcon><LinkIcon /></ListItemIcon>
                     <ListItemText primary={'Pokemon'} />
                 </ListItem>
-                <ListItem button component={Link} to={`/berries`} key={'berry'}>
-                    <ListItemIcon><MailIcon /></ListItemIcon>
+                <ListItem button component={Link} to={`/berries`} key={'berry'} onClick={toggleDrawer(side, false)}>
+                    <ListItemIcon><LinkIcon /></ListItemIcon>
                     <ListItemText primary={'Berry'} />
                 </ListItem>
             </List>
@@ -49,7 +66,7 @@ const Menu = () => {
 
     return (
         <div>
-            <Button onClick={toggleDrawer('left', true)}><MenuIcon /></Button>
+            <Button className={classes.menu} onClick={toggleDrawer('left', true)}><MenuIcon /></Button>
             <Drawer open={state.left} onClose={toggleDrawer('left', false)}>
                 {sideList('left')}
             </Drawer>

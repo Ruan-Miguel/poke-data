@@ -24,7 +24,11 @@ const useStyles = makeStyles(theme => ({
   },
   tabs: {
     backgroundColor: '#1976d2'
-  }
+  },
+  inputWraper: {
+    position: 'absolute',
+    right: '1%',
+  },
 }))
 
 function useQuery() {
@@ -42,15 +46,17 @@ const Header = () => {
   }
 
   return (
-      <AppBar className={classes.header} position="static">
-        <div className={classes.tabsWrap}>
-          <Tabs className={classes.tabs} value={value} onChange={handleChange}>
-            <Tab label="Pokemon" {...a11yProps(0)} component={Link} to={`/pokemons${(query) ? `?name=${query}` : ''}`} />
-            <Tab label="Item" {...a11yProps(1)} component={Link} to={`/berries${(query) ? `?name=${query}` : ''}`} />
-          </Tabs>
-        </div>
-        <InputSearch />
-      </AppBar>
+    <AppBar className={classes.header} position="static">
+      <div className={classes.tabsWrap}>
+        <Tabs className={classes.tabs} value={value} onChange={handleChange}>
+          <Tab label="Pokemon" {...a11yProps(0)} component={Link} to={`/pokemons${(query) ? `?name=${query}` : ''}`} />
+          <Tab label="Item" {...a11yProps(1)} component={Link} to={`/berries${(query) ? `?name=${query}` : ''}`} />
+        </Tabs>
+      </div>
+      <div className={classes.inputWraper}>
+        <InputSearch /> 
+      </div>
+    </AppBar>
   )
 }
 
