@@ -29,7 +29,6 @@ const Menu = () => {
     })
 
     const toggleDrawer = (side, open) => event => {
-        console.log(event.key)
         if (event.type === 'keydown') {
             if (event.key !== 'Enter') {
                 return
@@ -41,7 +40,7 @@ const Menu = () => {
         }
 
         setState({ ...state, [side]: open })
-    };
+    }
 
     const sideList = side => (
         <div
@@ -52,11 +51,11 @@ const Menu = () => {
                 <ListItem onKeyDown={toggleDrawer(side, false)} className={classes.inputWraper}>
                     <InputSearch />
                 </ListItem>
-                <ListItem button component={Link} to={`/pokemons`} key={'pokemon'} onClick={toggleDrawer(side, false)}>
+                <ListItem button component={Link} to={{ pathname: '/pokemons', search: null }} key={'pokemon'} onClick={toggleDrawer(side, false)}>
                     <ListItemIcon><LinkIcon /></ListItemIcon>
                     <ListItemText primary={'Pokemon'} />
                 </ListItem>
-                <ListItem button component={Link} to={`/berries`} key={'berry'} onClick={toggleDrawer(side, false)}>
+                <ListItem button component={Link} to={{ pathname: '/berries', search: null }} key={'berry'} onClick={toggleDrawer(side, false)}>
                     <ListItemIcon><LinkIcon /></ListItemIcon>
                     <ListItemText primary={'Berry'} />
                 </ListItem>

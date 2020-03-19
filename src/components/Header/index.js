@@ -1,7 +1,7 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { AppBar, Tabs, Tab } from '@material-ui/core'
-import { useParams, Link, useLocation } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 import InputSearch from "../InputSearch";
 
@@ -31,15 +31,9 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-function useQuery() {
-  return new URLSearchParams(useLocation().search)
-}
-
 const Header = () => {
   const classes = useStyles()
   const [value, setValue] = React.useState((useParams().tab === 'pokemons') ? 0 : 1)
-
-  const query = useQuery().get('name')
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
@@ -49,8 +43,8 @@ const Header = () => {
     <AppBar className={classes.header} position="static">
       <div className={classes.tabsWrap}>
         <Tabs className={classes.tabs} value={value} onChange={handleChange}>
-          <Tab label="Pokemon" {...a11yProps(0)} component={Link} to={`/pokemons${(query) ? `?name=${query}` : ''}`} />
-          <Tab label="Item" {...a11yProps(1)} component={Link} to={`/berries${(query) ? `?name=${query}` : ''}`} />
+          <Tab label="Pokemon" {...a11yProps(0)} component={Link} to={`/pokemons`} />
+          <Tab label="Item" {...a11yProps(1)} component={Link} to={`/berries`} />
         </Tabs>
       </div>
       <div className={classes.inputWraper}>

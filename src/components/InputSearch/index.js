@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useRef, useLayoutEffect } from 'react'
 import { Redirect, useParams, useLocation } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import { Paper, InputBase, IconButton } from '@material-ui/core'
@@ -31,31 +31,24 @@ const InputSearch = () => {
   const name = useQuery().get('name')
 
   const [inputValue, setInputValue] = useState((name) ? name : '')
-  const [queries, setQueries] = useState(useLocation().search)
-
-  const currentQueries = useLocation().search
 
   const currentRoute = useParams().tab
 
-  const cont = useRef(false)
+  const didUpdate = useRef(false)
 
-  useEffect(() => {
-    if (cont.current) {
-      if (inputValue !== '') {
-        setQueries(`?name=${inputValue}`)
-      } else {
-        setQueries('')
-      }
+  useLayoutEffect(() => {
+    if (didUpdate.current) {
+      setInputValue('')
     } else {
-      cont.current = true
+      didUpdate.current = true
     }
-  }, [inputValue, queries, currentQueries])
+  }, [currentRoute])
 
   return (
     <Paper component="div" className={classes.root}>
       <Redirect to={{
         pathname: `/${currentRoute}`,
-        search: queries,
+        search: (inputValue !== '') ? `?name=${inputValue}` : '',
       }}
       />
       <InputBase
