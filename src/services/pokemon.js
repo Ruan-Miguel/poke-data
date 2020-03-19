@@ -104,8 +104,8 @@ const read = async (pageNumber, limit) => {
 
 //Specification
 
-const detailedPokemonSpecieReading = async (id) => {
-    const res = await api.get(`pokemon-species/${id}`)
+const detailedPokemonSpecieReading = async (url) => {
+    const res = await axios.get(url)
     const { data } = res
     const color = data.color.name
     const flavorText = data.flavor_text_entries.find(flavor => {
@@ -118,9 +118,7 @@ const detailedPokemonSpecieReading = async (id) => {
     }
 }
 
-const detailedPokemonReading = async (id) => {
-    const res = await api.get(`pokemon/${id}`)
-    const { data } = res
+const detailedPokemonReading = async (data) => {
     const name = data.name
     const abilities = data.abilities.map(item => item.ability.name)
     const images = {
@@ -152,7 +150,9 @@ const detailedPokemonReading = async (id) => {
 }
 
 const detailedReading = async (id) => {
-    return Promise.all([detailedPokemonReading(id), detailedPokemonSpecieReading(id)])
+    const res = await api.get(`pokemon/${id}`)
+
+    return Promise.all([detailedPokemonReading(res.data), detailedPokemonSpecieReading(res.data.species.url)])
         .then(res => Object.assign(res[0], res[1]))
 }
 
