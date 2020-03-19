@@ -43,8 +43,8 @@ const Header = () => {
     <AppBar className={classes.header} position="static">
       <div className={classes.tabsWrap}>
         <Tabs className={classes.tabs} value={value} onChange={handleChange}>
-          <Tab label="Pokemon" {...a11yProps(0)} component={Link} to={`/pokemons`} />
-          <Tab label="Item" {...a11yProps(1)} component={Link} to={`/berries`} />
+          <Tab label="Pokemon" {...a11yProps(0)} component={(useParams().tab !== 'pokemons') ? Link : 'div'} to={`/pokemons`} />
+          <Tab label="Item" {...a11yProps(1)} component={(useParams().tab !== 'items') ? Link : 'div'} to={`/items`} />
         </Tabs>
       </div>
       <div className={classes.inputWraper}>

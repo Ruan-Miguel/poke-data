@@ -1,5 +1,5 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Link, useParams } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import { Drawer, Button, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core'
 import LinkIcon from '@material-ui/icons/Link'
@@ -24,11 +24,10 @@ const useStyles = makeStyles({
 
 const Menu = () => {
     const classes = useStyles()
-    const [state, setState] = React.useState({
-        left: false,
-    })
 
-    const toggleDrawer = (side, open) => event => {
+    const [drawer, setDrawer] = useState(false)
+
+    const toggleDrawer = (open) => event => {
         if (event.type === 'keydown') {
             if (event.key !== 'Enter') {
                 return
@@ -39,35 +38,31 @@ const Menu = () => {
             }
         }
 
-        setState({ ...state, [side]: open })
+        setDrawer(open)
     }
-
-    const sideList = side => (
-        <div
-            className={classes.list}
-            role="presentation"
-        >
-            <List>
-                <ListItem onKeyDown={toggleDrawer(side, false)} className={classes.inputWraper}>
-                    <InputSearch />
-                </ListItem>
-                <ListItem button component={Link} to={{ pathname: '/pokemons', search: null }} key={'pokemon'} onClick={toggleDrawer(side, false)}>
-                    <ListItemIcon><LinkIcon /></ListItemIcon>
-                    <ListItemText primary={'Pokemon'} />
-                </ListItem>
-                <ListItem button component={Link} to={{ pathname: '/berries', search: null }} key={'berry'} onClick={toggleDrawer(side, false)}>
-                    <ListItemIcon><LinkIcon /></ListItemIcon>
-                    <ListItemText primary={'Berry'} />
-                </ListItem>
-            </List>
-        </div>
-    )
 
     return (
         <div>
-            <Button className={classes.menu} onClick={toggleDrawer('left', true)}><MenuIcon /></Button>
-            <Drawer open={state.left} onClose={toggleDrawer('left', false)}>
-                {sideList('left')}
+            <Button className={classes.menu} onClick={toggleDrawer(true)}><MenuIcon /></Button>
+            <Drawer open={drawer} onClose={toggleDrawer(false)}>
+                <div
+                    className={classes.list}
+                    role="presentation"
+                >
+                    <List>
+                        <ListItem onKeyDown={toggleDrawer(false)} className={classes.inputWraper}>
+                            <InputSearch />
+                        </ListItem>
+                        <ListItem button component={(useParams().tab !== 'pokemons') ? Link : 'div'} to={{ pathname: '/pokemons', search: null }} key={'pokemon'} onClick={toggleDrawer(false)}>
+                            <ListItemIcon><LinkIcon /></ListItemIcon>
+                            <ListItemText primary={'Pokemon'} />
+                        </ListItem>
+                        <ListItem button component={(useParams().tab !== 'items') ? Link : 'div'} to={{ pathname: '/items', search: null }} key={'berry'} onClick={toggleDrawer(false)}>
+                            <ListItemIcon><LinkIcon /></ListItemIcon>
+                            <ListItemText primary={'Berry'} />
+                        </ListItem>
+                    </List>
+                </div>
             </Drawer>
         </div>
     )

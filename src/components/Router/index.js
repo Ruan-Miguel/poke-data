@@ -20,7 +20,7 @@ const Router = () => {
                 <Route exact path="/pokemons">
                     <PokemonList />
                 </Route>
-                <Route exact path="/berries">
+                <Route exact path="/items">
                     <ItemList />
                 </Route>
                 <Route path='*'>

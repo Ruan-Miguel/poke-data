@@ -1,4 +1,4 @@
-import React, { useState, useRef, useLayoutEffect } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { Redirect, useParams, useLocation } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import { Paper, InputBase, IconButton } from '@material-ui/core'
@@ -31,12 +31,13 @@ const InputSearch = () => {
   const name = useQuery().get('name')
 
   const [inputValue, setInputValue] = useState((name) ? name : '')
+  const [shouldRedirect, setShouldRedirect] = useState(false)
 
   const currentRoute = useParams().tab
 
   const didUpdate = useRef(false)
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (didUpdate.current) {
       setInputValue('')
     } else {
@@ -44,19 +45,32 @@ const InputSearch = () => {
     }
   }, [currentRoute])
 
+  useEffect(() => {
+    if (shouldRedirect) {
+      setShouldRedirect(false)
+    }
+  }, [shouldRedirect])
+
+  const redirect = () => {
+    return (shouldRedirect) ? <Redirect to={{
+      pathname: `/${currentRoute}`,
+      search: (inputValue !== '') ? `?name=${inputValue}` : '',
+    }}
+    /> : ''
+  }
+
   return (
     <Paper component="div" className={classes.root}>
-      <Redirect to={{
-        pathname: `/${currentRoute}`,
-        search: (inputValue !== '') ? `?name=${inputValue}` : '',
-      }}
-      />
+      {redirect()}
       <InputBase
         className={classes.input}
         placeholder="Search"
         inputProps={{ 'aria-label': 'search' }}
         value={inputValue}
-        onChange={(event) => setInputValue(event.target.value)}
+        onChange={(event) => {
+          setInputValue(event.target.value)
+          setShouldRedirect(true)
+        }}
       />
       <IconButton className={classes.iconButton} aria-label="search">
         <SearchIcon />
