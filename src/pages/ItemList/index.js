@@ -1,7 +1,7 @@
 import React from 'react'
 
-import GenericPage from "../GenericPage"
-import ItemInfo from '../ItemInfo'
+import GenericPage from "../../components/GenericPage"
+import ItemInfo from './components/ItemInfo'
 
 import { getBerries, numberOfPages } from '../../services/item'
 

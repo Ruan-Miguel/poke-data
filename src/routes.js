@@ -1,9 +1,9 @@
 import React from "react";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom"
 
-import MenuOrHeader from '../MenuOrHeader'
-import PokemonList from '../PokemonList'
-import ItemList from '../ItemList'
+import MenuOrHeader from './components/MenuOrHeader'
+import PokemonList from './pages/PokemonList'
+import ItemList from './pages/ItemList'
 
 const Router = () => {
     return (

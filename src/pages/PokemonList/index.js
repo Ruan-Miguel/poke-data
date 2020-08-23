@@ -1,7 +1,7 @@
 import React from 'react'
 
-import GenericPage from "../GenericPage"
-import PokemonInfo from "../PokemonInfo"
+import GenericPage from "../../components/GenericPage"
+import PokemonInfo from "./components/PokemonInfo"
 
 import { getPokemons, numberOfPages } from '../../services/pokemon'
 
