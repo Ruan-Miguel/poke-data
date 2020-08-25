@@ -2,7 +2,7 @@ import React from 'react'
 
 import Router from './routes'
 
-function App() {
+function App () {
   return (
     <div className="App">
       <Router />
@@ -10,4 +10,4 @@ function App() {
   )
 }
 
-export default App;
+export default App

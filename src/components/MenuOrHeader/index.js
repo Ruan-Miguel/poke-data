@@ -5,13 +5,13 @@ import Header from './components/Header'
 import Menu from './components/Menu'
 
 const MenuOrHeader = () => {
-    const minWidth = useMediaQuery('(min-width:860px)')
+  const minWidth = useMediaQuery('(min-width:860px)')
 
-    return (
-        <div>
-            {(minWidth) ? <Header /> : <Menu />}
-        </div>
-    )
+  return (
+    <div>
+      {(minWidth) ? <Header /> : <Menu />}
+    </div>
+  )
 }
 
 export default MenuOrHeader

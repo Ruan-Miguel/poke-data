@@ -10,18 +10,18 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     alignItems: 'center',
     height: 30,
-    width: 240,
+    width: 240
   },
   input: {
     marginLeft: theme.spacing(1),
-    flex: 1,
+    flex: 1
   },
   iconButton: {
-    padding: 10,
-  },
+    padding: 10
+  }
 }))
 
-function useQuery() {
+function useQuery () {
   return new URLSearchParams(useLocation().search)
 }
 
@@ -30,7 +30,7 @@ const InputSearch = () => {
 
   const name = useQuery().get('name')
 
-  const [inputValue, setInputValue] = useState((name) ? name : '')
+  const [inputValue, setInputValue] = useState((name) || '')
   const [shouldRedirect, setShouldRedirect] = useState(false)
 
   const currentRoute = useParams().tab
@@ -54,7 +54,7 @@ const InputSearch = () => {
   const redirect = () => {
     return (shouldRedirect) ? <Redirect to={{
       pathname: `/${currentRoute}`,
-      search: (inputValue !== '') ? `?name=${inputValue}` : '',
+      search: (inputValue !== '') ? `?name=${inputValue}` : ''
     }}
     /> : ''
   }
@@ -77,7 +77,6 @@ const InputSearch = () => {
       </IconButton>
     </Paper>
   )
-
 }
 
 export default InputSearch
