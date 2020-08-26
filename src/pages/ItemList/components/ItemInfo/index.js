@@ -109,12 +109,12 @@ const ItemInfo = ({ id, open, handleClose }) => {
           <AccordionDetails className={classes.OrganizeColumns}>
             <Typography className={classes.column} component={'div'}>
               {details.attributes.map((attribute, index) => {
-                return (index % 2 === 0) ? <Typography key={attribute}>{attribute}</Typography> : null
+                return index % 2 === 0 && <Typography key={attribute}>{attribute}</Typography>
               })}
             </Typography>
             <Typography className={classes.column} component={'div'}>
               {details.attributes.map((attribute, index) => {
-                return (index % 2 !== 0) ? <Typography key={attribute}>{attribute}</Typography> : null
+                return index % 2 !== 0 && <Typography key={attribute}>{attribute}</Typography>
               })}
             </Typography>
           </AccordionDetails>

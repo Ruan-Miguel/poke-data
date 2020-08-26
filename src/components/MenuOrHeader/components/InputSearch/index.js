@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react'
-import { Redirect, useParams, useLocation } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { useParams, useLocation, useHistory } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import { Paper, InputBase, IconButton } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
@@ -28,40 +28,26 @@ function useQuery () {
 const InputSearch = () => {
   const classes = useStyles()
 
-  const name = useQuery().get('name')
-
-  const [inputValue, setInputValue] = useState((name) || '')
-  const [shouldRedirect, setShouldRedirect] = useState(false)
+  const redirect = useHistory().push
 
   const currentRoute = useParams().tab
 
-  const didUpdate = useRef(false)
+  const name = useQuery().get('name')
+
+  const [inputValue, setInputValue] = useState((name) || '')
 
   useEffect(() => {
-    if (didUpdate.current) {
-      setInputValue('')
-    } else {
-      didUpdate.current = true
-    }
+    setInputValue('')
   }, [currentRoute])
 
   useEffect(() => {
-    if (shouldRedirect) {
-      setShouldRedirect(false)
-    }
-  }, [shouldRedirect])
-
-  const redirect = () => {
-    return (shouldRedirect) ? <Redirect to={{
-      pathname: `/${currentRoute}`,
-      search: (inputValue !== '') ? `?name=${inputValue}` : ''
-    }}
-    /> : ''
-  }
+    redirect({
+      search: inputValue !== '' ? `name=${inputValue}` : undefined
+    })
+  }, [inputValue, redirect])
 
   return (
     <Paper component="div" className={classes.root}>
-      {redirect()}
       <InputBase
         className={classes.input}
         placeholder="Search"
@@ -69,7 +55,6 @@ const InputSearch = () => {
         value={inputValue}
         onChange={(event) => {
           setInputValue(event.target.value)
-          setShouldRedirect(true)
         }}
       />
       <IconButton className={classes.iconButton} aria-label="search">
